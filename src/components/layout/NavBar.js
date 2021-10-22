@@ -38,7 +38,13 @@ const NavBar = () => {
   };
 
   return (
-    <Flex p="1.5rem 4rem" mb="3.5rem" justify="space-between" align="center">
+    <Flex
+      px={["2rem", "3rem", "4rem"]}
+      py="1.5rem"
+      mb="3.5rem"
+      justify="space-between"
+      align="center"
+    >
       <Link to="/" noStyles>
         <StacksLogo height="5rem" width="10rem" color="black" />
       </Link>

@@ -18,9 +18,9 @@ const Product = () => {
   const { id } = match.params;
 
   const handleAddToCart = () => {
-    const { id, title, price, imageUrl } = product;
+    const { id, title, price, image } = product;
 
-    addToCart({ id, title, price, imageUrl, quantity });
+    addToCart({ id, title, price, imageUrl: image, quantity });
   };
 
   useEffect(() => {

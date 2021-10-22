@@ -17,6 +17,15 @@ export const baseCart = {
 
 export const baseOrders = [];
 
+// Seeder, basically
+export const setDefaultCart = async () => {
+  await storage.putFile(CART_FILENAME, JSON.stringify(baseCart), {
+    dangerouslyIgnoreEtag: true,
+  });
+
+  return baseCart;
+};
+
 // ADD TO CART FLOW
 // i. If it's an empty cart or the incoming product does not exist in the cart, we stick our new product in it
 // ii. If it's not empty and our incoming product is in it, we simply update it and stick it into a filtered cart
@@ -57,6 +66,27 @@ export const addToCart = async (product) => {
     });
 
     return cart;
+  } catch (err) {
+    console.error(err);
+
+    return null;
+  }
+};
+
+export const removeFromCart = async (productId) => {
+  try {
+    const cart = await fetchCart();
+
+    if (cart) {
+      const updatedList = cart.products.filter((p) => p.id !== productId);
+      const newCart = { ...cart, products: updatedList };
+
+      await storage.putFile(CART_FILENAME, JSON.stringify(newCart), {
+        dangerouslyIgnoreEtag: true,
+      });
+
+      return newCart;
+    }
   } catch (err) {
     console.error(err);
 

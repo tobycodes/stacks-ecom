@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <div>
       <NavBar />
       <Text
-        fontSize="30px"
+        fontSize={["2rem", "2.5rem", "3rem"]}
         mb="3rem"
         textAlign="center"
         display="block"

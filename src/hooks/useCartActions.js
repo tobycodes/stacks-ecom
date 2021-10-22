@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { useCart } from "../context/Cart";
 
-import { addToCart } from "../api/storage";
+import { addToCart, removeFromCart } from "../api/storage";
 import { userSession, authenticate } from "../api/auth";
 
 export const useCartActions = () => {
@@ -30,6 +30,26 @@ export const useCartActions = () => {
     [history, setCart]
   );
 
+  const doRemoveFromCart = useCallback(
+    async (productId) => {
+      setLoading(true);
+
+      try {
+        const result = await removeFromCart(productId);
+
+        if (result) {
+          setCart(result);
+          history.push("/cart");
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [history, setCart]
+  );
+
   const handleAddToCart = useCallback(
     (productData) => {
       if (!userSession.isUserSignedIn()) {
@@ -41,5 +61,20 @@ export const useCartActions = () => {
     [doAddToCart]
   );
 
-  return { loading, addToCart: handleAddToCart };
+  const handleRemoveFromCart = useCallback(
+    (productId) => {
+      if (!userSession.isUserSignedIn()) {
+        authenticate({ onFinish: doRemoveFromCart });
+      } else {
+        doRemoveFromCart(productId);
+      }
+    },
+    [doRemoveFromCart]
+  );
+
+  return {
+    loading,
+    addToCart: handleAddToCart,
+    removeFromCart: handleRemoveFromCart,
+  };
 };

@@ -4,12 +4,14 @@ import Home from "./Home";
 import AllProducts from "./AllProducts";
 import Category from "./Category";
 import Product from "./Product";
+import Cart from "./Cart";
 import Layout from "../components/layout";
 
 const AppRoute = () => {
   return (
     <Layout>
       <Switch>
+        <Route path="/cart" exact component={Cart} />
         <Route path="/product/:id" exact component={Product} />
         <Route path="/category/:name" exact component={Category} />
         <Route path="/all-products" exact component={AllProducts} />
