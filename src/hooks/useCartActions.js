@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { useCart } from "../context/Cart";
 
-import { addToCart, removeFromCart } from "../api/storage";
-import { userSession, authenticate } from "../api/auth";
+import { useCart } from "hooks";
+import { addToCart, removeFromCart } from "api/storage";
+import { userSession, authenticate } from "api/auth";
 
 export const useCartActions = () => {
   const [loading, setLoading] = useState(false);
@@ -53,7 +53,7 @@ export const useCartActions = () => {
   const handleAddToCart = useCallback(
     (productData) => {
       if (!userSession.isUserSignedIn()) {
-        authenticate({ onFinish: doAddToCart });
+        authenticate({ onFinish: () => doAddToCart(productData) });
       } else {
         doAddToCart(productData);
       }
@@ -64,7 +64,7 @@ export const useCartActions = () => {
   const handleRemoveFromCart = useCallback(
     (productId) => {
       if (!userSession.isUserSignedIn()) {
-        authenticate({ onFinish: doRemoveFromCart });
+        authenticate({ onFinish: () => doRemoveFromCart(productId) });
       } else {
         doRemoveFromCart(productId);
       }

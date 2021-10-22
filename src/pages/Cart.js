@@ -1,18 +1,13 @@
 import { Box, Text, Flex } from "@stacks/ui";
 import { useHistory } from "react-router-dom";
-import { useCart } from "../context/Cart";
-import { useUser } from "../hooks/useUser";
 
-import List from "../components/common/List";
-import Button from "../components/common/Button";
-import CartItem from "../components/shop/CartItem";
+import { useCart } from "hooks";
+import { Button, List } from "components/common";
+import { CartItem } from "components/shop";
 
 const Cart = () => {
   const [cart, , { loading }] = useCart();
-  const user = useUser();
   const history = useHistory();
-
-  console.log({ user, cart });
 
   if (loading)
     return (
@@ -50,7 +45,7 @@ const Cart = () => {
 
       <Flex mt="2.5rem" justify="space-between" wrap="wrap" gap="1.5rem">
         <Text display="block" lineHeight={2} fontSize={["2rem", "2.5rem"]}>
-          <Text fontWeight={600}>Total</Text>: STX {cart.totalAmount}
+          <Text fontWeight={600}>Total</Text>: STX {cart.totalAmount.toFixed(3)}
         </Text>
 
         <Button m="0">Complete Order</Button>

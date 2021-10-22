@@ -2,15 +2,9 @@ import { useState } from "react";
 import { Flex, StacksLogo, Box, Text } from "@stacks/ui";
 import { NavLink } from "react-router-dom";
 
-import List from "../common/List";
-import ListItem from "../common/ListItem";
-import Link from "../common/Link";
-import Button from "../common/Button";
-import Avatar from "../common/Avatar";
-
-import { useCart } from "../../context/Cart";
-
-import { userSession, getUserData, authenticate } from "../../api/auth";
+import { Avatar, Button, Link, List, ListItem } from "components/common";
+import { useCart } from "hooks";
+import { userSession, getUserData, authenticate } from "api/auth";
 
 const NavBar = () => {
   const [loading, setLoading] = useState(userSession.isSignInPending());
@@ -76,14 +70,22 @@ const NavBar = () => {
           <Box>
             <Avatar />
             <Text fontWeight="500">{getUserData().username}</Text>
-            <Button isLoading={loading} onClick={handleSignOut}>
+            <Button
+              isLoading={loading}
+              disabled={loading}
+              onClick={handleSignOut}
+            >
               Sign out
             </Button>
           </Box>
         ) : (
           <>
             <ListItem>
-              <Button isLoading={loading} onClick={handleSignIn}>
+              <Button
+                isLoading={loading}
+                disabled={loading}
+                onClick={handleSignIn}
+              >
                 Login
               </Button>
             </ListItem>

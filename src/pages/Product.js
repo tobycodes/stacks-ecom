@@ -2,12 +2,9 @@ import { useState, useEffect } from "react";
 import { Box, Flex, Text, Input } from "@stacks/ui";
 import { useRouteMatch } from "react-router-dom";
 
-import Button from "../components/common/Button";
-import Image from "../components/common/Image";
-
-import { useCartActions } from "../hooks/useCartActions";
-
-import productService from "../api/productService";
+import { Button, Image } from "components/common";
+import { useCartActions } from "hooks";
+import productService from "api/productService";
 
 const Product = () => {
   const [product, setProduct] = useState({});
@@ -53,6 +50,7 @@ const Product = () => {
         <Flex
           justify="center"
           align="center"
+          overflow="hidden"
           w="100%"
           h="40rem"
           backgroundImage="linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0, 0.1))"
@@ -112,6 +110,7 @@ const Product = () => {
             borderRadius="1rem"
             minW="15rem"
             isLoading={loading}
+            disabled={loading}
             onClick={handleAddToCart}
           >
             Buy Now

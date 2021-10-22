@@ -1,4 +1,5 @@
 import { Text } from "@stacks/ui";
+
 import NavBar from "./NavBar";
 
 const Layout = ({ children }) => {

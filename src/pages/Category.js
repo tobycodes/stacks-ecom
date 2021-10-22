@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { Flex, Text } from "@stacks/ui";
 import { useRouteMatch } from "react-router-dom";
 
-import ProductList from "../components/shop/ProductList";
-
-import productService from "../api/productService";
+import { ProductList } from "components/shop";
+import productService from "api/productService";
 
 const Category = () => {
   const [products, setProducts] = useState([]);

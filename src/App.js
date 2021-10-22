@@ -1,9 +1,8 @@
 import { ToastProvider, ColorModeProvider, ModalProvider } from "@stacks/ui";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { CartProvider } from "./context/Cart";
-
-import AppRoutes from "./pages/route";
+import { CartProvider } from "context/Cart";
+import AppRoutes from "pages/route";
 
 function App() {
   return (

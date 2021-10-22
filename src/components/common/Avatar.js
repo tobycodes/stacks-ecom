@@ -1,6 +1,6 @@
 import { Box } from "@stacks/ui";
 
-import { getPerson } from "../../api/auth";
+import { getPerson } from "api/auth";
 
 const Avatar = () => {
   const person = getPerson();
@@ -9,19 +9,19 @@ const Avatar = () => {
     return (
       <Box
         borderRadius="50%"
-        width="24px"
-        height="24px"
+        width="2.4rem"
+        height="2.4rem"
         display="inline-block"
         overflow="hidden"
         mr={2}
-        sx={{ position: "relative", top: "6px" }}
+        sx={{ position: "relative", top: "0.6rem" }}
       >
         <Box
           as="img"
           src={person.avatarUrl()}
           maxWidth="100%"
-          minHeight="24px"
-          minWidth="24px"
+          minHeight="2.4rem"
+          minWidth="2.4rem"
         />
       </Box>
     );

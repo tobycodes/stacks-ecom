@@ -1,11 +1,11 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { baseCart, fetchCart } from "../api/storage";
+import { baseCart, fetchCart } from "api/storage";
 
 const CartContext = createContext([]);
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(baseCart);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const doFetchCart = async () => {

@@ -1,8 +1,7 @@
 import { Box, Flex, Text } from "@stacks/ui";
-import Link from "../common/Link";
-import Image from "../common/Image";
-import Button from "../common/Button";
-import { useCartActions } from "../../hooks/useCartActions";
+
+import { Button, Image, Link } from "components/common";
+import { useCartActions } from "hooks";
 
 const ProductCard = ({ id, title, imageUrl, category, price }) => {
   const { addToCart, loading } = useCartActions();
@@ -81,6 +80,7 @@ const ProductCard = ({ id, title, imageUrl, category, price }) => {
           fontWeight={600}
           margin="0"
           isLoading={loading}
+          disabled={loading}
           onClick={() => addToCart({ id, title, imageUrl, price, quantity: 1 })}
         >
           Buy Now

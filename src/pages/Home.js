@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Flex, Text } from "@stacks/ui";
 
-import ProductList from "../components/shop/ProductList";
-
-import productService from "../api/productService";
+import { ProductList } from "components/shop";
+import productService from "api/productService";
 
 const Home = () => {
   const [products, setProducts] = useState([]);

@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { userSession } from "./auth";
 import { Storage } from "@stacks/storage";
 
-import { getCartTotal } from "../utils/getCartTotal";
+import { getCartTotal } from "utils/getCartTotal";
 
 const storage = new Storage({ userSession });
 const CART_FILENAME = "cart.json";
