@@ -9,7 +9,7 @@ export async function authenticate({ onFinish }) {
   showConnect({
     appDetails: {
       name: "Stacks eCom",
-      icon: window.location.origin + "/logo.svg",
+      icon: "/logo.svg",
     },
     redirectTo: "/",
     finished: onFinish,
