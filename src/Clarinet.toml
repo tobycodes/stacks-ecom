@@ -1,0 +1,7 @@
+[project]
+name = "stacks-ecom"
+requirements = []
+costs_version = 1
+[contracts.make-order]
+path = "contracts/make-order.clar"
+depends_on = []
