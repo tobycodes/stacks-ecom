@@ -12,7 +12,7 @@ const Cart = () => {
   const user = useUser();
   const history = useHistory();
 
-  console.log({ user });
+  console.log({ user, cart });
 
   if (loading)
     return (

@@ -78,8 +78,16 @@ export const removeFromCart = async (productId) => {
     const cart = await fetchCart();
 
     if (cart) {
+      const product = cart.products.find((p) => p.id === productId);
       const updatedList = cart.products.filter((p) => p.id !== productId);
-      const newCart = { ...cart, products: updatedList };
+      const newTotal = cart.totalItems - 1;
+      const newAmount = cart.totalAmount - product.price * product.quantity;
+
+      const newCart = {
+        products: updatedList,
+        totalItems: newTotal >= 0 ? newTotal : 0,
+        totalAmount: newAmount >= 0 ? newAmount : 0,
+      };
 
       await storage.putFile(CART_FILENAME, JSON.stringify(newCart), {
         dangerouslyIgnoreEtag: true,
@@ -87,6 +95,8 @@ export const removeFromCart = async (productId) => {
 
       return newCart;
     }
+
+    return cart;
   } catch (err) {
     console.error(err);
 
