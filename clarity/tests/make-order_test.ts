@@ -9,48 +9,54 @@ import {
 //@ts-ignore
 import { assertEquals } from "https://deno.land/std@0.90.0/testing/asserts.ts";
 
+const CART_ID = "cart-id";
 const TRX_AMOUNT = 12;
 
 Clarinet.test({
   name: "Test that init-order gets called and transaction goes through",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-    const wallet_1 = accounts.get("wallet_1")!;
-    const deployer = accounts.get("deployer")!;
+    const sender = accounts.get("wallet_1")!;
     let assetMaps = chain.getAssetsMaps();
-    const address = wallet_1.address as string;
-    const balance = assetMaps.assets["STX"][address];
-    const deployerBalance = assetMaps.assets["STX"][deployer.address];
+    const senderAddress = sender.address as string;
+    const senderBalance = assetMaps.assets["STX"][senderAddress];
 
     let block = chain.mineBlock([
       Tx.contractCall(
         "make-order",
         "init-order",
-        [types.ascii("abcdef"), types.uint(TRX_AMOUNT)],
-        address
+        [types.ascii(CART_ID), types.uint(TRX_AMOUNT)],
+        senderAddress
       ),
       Tx.contractCall(
         "make-order",
         "get-transaction",
-        [types.ascii("abcdef")],
-        address
+        [types.ascii(CART_ID)],
+        senderAddress
+      ),
+      Tx.contractCall(
+        "make-order",
+        "get-transactions",
+        [],
+        senderAddress
       ),
     ]);
 
-    assertEquals(block.receipts.length, 2);
-
+    // Check that both contracts were called successfully
+    assertEquals(block.receipts.length, 3);
     block.receipts[0].result.expectOk();
     block.receipts[1].result.expectOk();
-    console.log(block.receipts[1].result);
+    block.receipts[2].result.expectOk();
+
+    console.log(block.receipts[2].result)
+
+    // Check that the transaction was added to the transactions map and the sender debited
+    assetMaps = chain.getAssetsMaps();
+    const newBalance = assetMaps.assets["STX"][senderAddress];
+
+    assertEquals(newBalance, senderBalance - TRX_AMOUNT);
     assertEquals(
       block.receipts[1].result,
-      types.ok(`{amount: ${types.uint(TRX_AMOUNT)}}`)
+      types.ok(`{amount: ${types.uint(TRX_AMOUNT)}, paid: ${types.bool(true)}}`)
     );
-
-    assetMaps = chain.getAssetsMaps();
-    const newBalance = assetMaps.assets["STX"][address];
-    const newDeployerBalance = assetMaps.assets["STX"][deployer.address];
-
-    assertEquals(newBalance, balance - TRX_AMOUNT);
-    assertEquals(newDeployerBalance, deployerBalance + TRX_AMOUNT);
   },
 });

@@ -1,23 +1,17 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { Flex, Text } from "@stacks/ui";
 
 import { ProductList } from "components/shop";
-import productService from "api/productService";
+import { useProducts } from "hooks";
 
 const AllProducts = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {data, isLoading} = useProducts()
 
-  useEffect(function () {
-    const getProducts = async () => {
-      const products = await productService.products();
+  const randomProducts = useMemo(() => {
+    const products = data || [];
 
-      setProducts(products.sort(() => Math.random() - Math.random()));
-      setLoading(false);
-    };
-
-    getProducts();
-  }, []);
+    return products.sort(() => Math.random() - Math.random())
+  }, [data])
 
   return (
     <Flex
@@ -27,10 +21,10 @@ const AllProducts = () => {
       direction="column"
       mb="5rem"
     >
-      {loading ? (
+      {isLoading ? (
         <Text>Loading...</Text>
       ) : (
-        <ProductList title="All Products" products={products} />
+        <ProductList title="All Products" products={randomProducts} />
       )}
     </Flex>
   );
