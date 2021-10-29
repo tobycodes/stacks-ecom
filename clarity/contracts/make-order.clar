@@ -10,7 +10,7 @@
 (define-constant orders-list-key "orders-list")
 (define-constant orders-list-max-length u10000)
 (define-map transactions-map { cart-id: (string-ascii 255) } { amount: uint })
-(define-map orders-list-map { all-orders: (string-ascii 255) } { orders: (list orders-list-max-length uint) })
+(define-map orders-list-map { all-orders: (string-ascii 255) } { orders: (list 10000 uint) })
 
 ;; public functions
 (define-read-only (get-transaction (cart-id (string-ascii 255)))
@@ -39,7 +39,17 @@
     (unwrap! (as-contract (stx-transfer? amount customer tx-sender)) (err ERR_PAYMENT_FAILED))
     ;; save the transaction to the map
     (map-insert transactions-map {cart-id: cart-id} {amount: amount})
-    (as-max-len? (append (get pilots (map-get? orders-list-map { all-orders: orders-list-key })) cart-id) orders-list-max-length)
+    (let ((all-orders 
+      (default-to 
+        (list) 
+        (get orders (map-get? orders-list-map { all-orders: orders-list-key }))
+      )))
+      ;; add the new transaction to the list of all transactions
+      (as-max-len? (append all-orders amount) u10000)
+      ;; update transactions list map
+      (map-set orders-list-map { all-orders: orders-list-key } { orders: all-orders })
+      ;; return the list of all transactions
+    )
     ;; return `true` response
     (ok true)
   )
