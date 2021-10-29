@@ -8,7 +8,7 @@ const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  useEffect(function () {
     const getProducts = async () => {
       const products = await productService.products();
 
@@ -22,9 +22,9 @@ const AllProducts = () => {
   return (
     <Flex
       justify="center"
+      gap="10px"
       align="center"
       direction="column"
-      gap="10px"
       mb="5rem"
     >
       {loading ? (

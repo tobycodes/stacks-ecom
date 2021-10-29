@@ -50,7 +50,6 @@ const Product = () => {
         <Flex
           justify="center"
           align="center"
-          overflow="hidden"
           w="100%"
           h="40rem"
           backgroundImage="linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0, 0.1))"
